@@ -11,8 +11,9 @@
 [![Express.js](https://img.shields.io/badge/Express.js-4.x-000000?style=flat-square&logo=express)](https://expressjs.com)
 [![Prisma](https://img.shields.io/badge/Prisma-6.10.1-2D3748?style=flat-square&logo=prisma)](https://www.prisma.io)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-316192?style=flat-square&logo=postgresql)](https://www.postgresql.org)
+[![Security](https://img.shields.io/badge/Security-Policy-red?style=flat-square&logo=security)](SECURITY.md)
 
-[Features](#-features) • [Architecture](#-system-architecture) • [Installation](#-quick-start) • [API Docs](API_DOCUMENTATION.md) • [Contributing](CONTRIBUTING.md) • [Changelog](CHANGELOG.md)
+[Features](#-features) • [Architecture](#-system-architecture) • [Installation](#-quick-start) • [API Docs](API_DOCUMENTATION.md) • [Security](SECURITY.md) • [Contributing](CONTRIBUTING.md)
 
 </div>
 
@@ -33,7 +34,7 @@
 - [Deployment](#-deployment) | [Deployment Guide →](DEPLOYMENT.md)
 - [Docker](#-docker)
 - [Testing](#-testing)
-- [Security](#-security)
+- [Security](#-security) | [Security Policy →](SECURITY.md)
 - [Contributing](#-contributing) | [Guidelines →](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)
 - [License](#-license)

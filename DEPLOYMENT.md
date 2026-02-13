@@ -35,7 +35,70 @@ Before deploying, ensure you have:
 
 ---
 
-## 🚂 Railway Deployment
+## � Render Deployment
+
+Render offers free tier with automatic deployments from GitHub.
+
+### Step 1: Create Render Account
+
+1. Go to [render.com](https://render.com)
+2. Sign up with GitHub
+
+### Step 2: Deploy from Dashboard
+
+1. Click "New +" → "Web Service"
+2. Connect your GitHub repository
+3. Configure:
+   - **Name**: devdojo-backend
+   - **Environment**: Node
+   - **Build Command**: `npm install && npx prisma generate`
+   - **Start Command**: `npm start`
+   - **Branch**: main
+
+### Step 3: Add Environment Variables
+
+Add all environment variables from `.env.sample`:
+
+```bash
+NODE_ENV=production
+DATABASE_URL=your-postgresql-url
+CLIENT_URL=https://your-frontend.com
+CORS_ORIGIN=https://your-frontend.com
+ACCESS_TOKEN_SECRET=your-secret
+REFRESH_TOKEN_SECRET=your-secret
+SESSION_SECRET=your-secret
+COOKIE_DOMAIN=.your-domain.com
+JUDGE0_API_URL=https://judge0-ce.p.rapidapi.com
+RAPIDAPI_KEY=your-key
+RAPIDAPI_HOST=judge0-ce.p.rapidapi.com
+GOOGLE_CLIENT_ID=your-id
+GOOGLE_CLIENT_SECRET=your-secret
+GOOGLE_CALLBACK_URL=https://your-app.onrender.com/api/v1/auth/google/callback
+MAILTRAP_SMTP_HOST=sandbox.smtp.mailtrap.io
+MAILTRAP_SMTP_PORT=2525
+MAILTRAP_SMTP_USERNAME=your-username
+MAILTRAP_SMTP_PASSWORD=your-password
+MAILTRAP_AUTHOR_EMAIL=no-reply@devdojo.com
+CLOUDINARY_CLOUD_NAME=your-cloud
+CLOUDINARY_API_KEY=your-key
+CLOUDINARY_API_SECRET=your-secret
+```
+
+### Step 4: Deploy
+
+Render will automatically deploy on every push to main branch.
+
+### Step 5: Using render.yaml (optional)
+
+For infrastructure-as-code, use the included `render.yaml`:
+
+1. Push `render.yaml` to your repository
+2. Render will detect and use this configuration
+3. All settings will be version controlled
+
+---
+
+## �🚂 Railway Deployment
 
 Railway offers simple deployment with PostgreSQL database included.
 

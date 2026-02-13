@@ -1,0 +1,61 @@
+# Render Blueprint for DevDojo Backend
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: devdojo-backend
+    env: node
+    runtime: node
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: npm install && npx prisma generate
+    startCommand: node src/index.js
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DATABASE_URL
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: ACCESS_TOKEN_SECRET
+        sync: false
+      - key: REFRESH_TOKEN_SECRET
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: COOKIE_DOMAIN
+        sync: false
+      - key: JUDGE0_API_URL
+        value: https://judge0-ce.p.rapidapi.com
+      - key: RAPIDAPI_KEY
+        sync: false
+      - key: RAPIDAPI_HOST
+        value: judge0-ce.p.rapidapi.com
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_CALLBACK_URL
+        sync: false
+      - key: MAILTRAP_SMTP_HOST
+        value: sandbox.smtp.mailtrap.io
+      - key: MAILTRAP_SMTP_PORT
+        value: 2525
+      - key: MAILTRAP_SMTP_USERNAME
+        sync: false
+      - key: MAILTRAP_SMTP_PASSWORD
+        sync: false
+      - key: MAILTRAP_AUTHOR_EMAIL
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
