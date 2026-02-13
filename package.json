@@ -13,8 +13,16 @@
     "algorithms",
     "education"
   ],
-  "author": "Codewithevilxd <codewithevilxd@gmail.com> (https://github.com/codewithevilxd)",
+  "author": "Codewithevilxd <codewithevilxd@gmail.com> (https://github.com/CodewithEvilxd)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodewithEvilxd/DevDojo-Backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CodewithEvilxd/DevDojo-Backend/issues"
+  },
+  "homepage": "https://github.com/CodewithEvilxd/DevDojo-Backend#readme",
   "type": "module",
   "dependencies": {
     "@prisma/client": "^6.10.1",

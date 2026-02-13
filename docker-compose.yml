@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: devdojo-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-devdojo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devdojo123}
+      POSTGRES_DB: ${POSTGRES_DB:-devdojo}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - devdojo-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-devdojo}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # DevDojo Backend API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devdojo-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=3000
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-devdojo}:${POSTGRES_PASSWORD:-devdojo123}@postgres:5432/${POSTGRES_DB:-devdojo}?schema=public
+      - CLIENT_URL=${CLIENT_URL:-http://localhost:5173}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:5173}
+      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
+      - REFRESH_TOKEN_SECRET=${REFRESH_TOKEN_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - COOKIE_DOMAIN=${COOKIE_DOMAIN:-.localhost}
+      - JUDGE0_API_URL=${JUDGE0_API_URL}
+      - RAPIDAPI_KEY=${RAPIDAPI_KEY}
+      - RAPIDAPI_HOST=${RAPIDAPI_HOST}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_CALLBACK_URL=${GOOGLE_CALLBACK_URL:-http://localhost:3000/api/v1/auth/google/callback}
+      - MAILTRAP_SMTP_HOST=${MAILTRAP_SMTP_HOST}
+      - MAILTRAP_SMTP_PORT=${MAILTRAP_SMTP_PORT}
+      - MAILTRAP_SMTP_USERNAME=${MAILTRAP_SMTP_USERNAME}
+      - MAILTRAP_SMTP_PASSWORD=${MAILTRAP_SMTP_PASSWORD}
+      - MAILTRAP_AUTHOR_EMAIL=${MAILTRAP_AUTHOR_EMAIL}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - devdojo-network
+    volumes:
+      - ./src:/app/src:ro
+      - ./prisma:/app/prisma:ro
+    command: sh -c "npx prisma migrate deploy && node src/index.js"
+
+  # Adminer - Database Management UI (Optional)
+  adminer:
+    image: adminer:latest
+    container_name: devdojo-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - devdojo-network
+    environment:
+      - ADMINER_DEFAULT_SERVER=postgres
+
+networks:
+  devdojo-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
